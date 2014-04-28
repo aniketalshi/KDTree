@@ -1,0 +1,22 @@
+
+ Number of Input points: 10, Range Low: 0.000000 to High: 1.000000
+
+ Input File : inputfile.txt 
+
+**************Running Test ******************
+
+ Rectangle Query : (0.463019, 0.949170), (0.898703, 1.430382) 
+ 
+ Points within query rectangle 
+
+ Count : 0
+Elapsed time Optmizied version: 0.032000 milliseconds
+
+**************Running Test ******************
+
+ Rectangle Query : (0.463019, 0.898703), (0.949170, 1.430382) 
+ 
+ Points within query rectangle 
+
+ Count : 0
+Elapsed time unoptimized version: 0.016000 milliseconds

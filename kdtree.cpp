@@ -21,6 +21,15 @@ bool compare_y (const int p, const int q) {
     return (pvec[p].y < pvec[q].y);
 }
 
+bool comparept_x (const point_t &p, const point_t &q) {
+    return (p.x < q.x);
+}
+
+
+bool comparept_y (const point_t &p, const point_t &q) {
+    return (p.y < q.y);
+}
+
 kdnode_t* makeKDNode (double x, double y, int dim, int count) {
         
     kdnode_t *kdnode = (kdnode_t *) malloc (sizeof(kdnode_t));
@@ -137,6 +146,66 @@ void buildKDTree (std::vector <int> &indexes, int dim, kdnode_t **root) {
         }
     }
 }
+
+
+void KDTree :: construct_unopt () {
+    
+    if (pvec.size() == 0)
+        return;
+    
+    root = buildKDTree_recurse (pvec, XDIM);
+}
+
+kdnode_t *buildKDTree_recurse (std::vector <point_t> &pvec, int dim) {
+    kdnode_t *kdnode = NULL; 
+    
+    //printf ("\n\n pvec size %d, dimension %d", (int )pvec.size(), dim);
+    
+    if (pvec.size() == 1) {
+        kdnode = makeKDNode (pvec[0].x, pvec[0].y, dim, pvec.size());     
+    
+    } else {
+        if (dim == XDIM)
+            sort (pvec.begin(), pvec.end(), comparept_x);
+        else
+            sort (pvec.begin(), pvec.end(), comparept_y);
+            
+       int split = ((int )pvec.size())/2;
+       kdnode = makeKDNode (pvec[split].x, pvec[split].y, dim, pvec.size());
+       
+       std::vector <point_t> leftvec, rightvec;
+       for (int it = 0; it < (int )pvec.size(); ++it) {
+            
+            if (it != split) {
+                if (compare(pvec[it], pvec[split], dim) < 0) {
+                    leftvec.push_back(pvec[it]);
+                
+                } else if (compare(pvec[it], pvec[split], dim) > 0) {
+                
+                    rightvec.push_back(pvec[it]);
+                }  else {
+                   if (it < split) 
+                       leftvec.push_back(pvec[it]);
+                   else  
+                       rightvec.push_back(pvec[it]);
+                } 
+            }
+       }
+        
+       //printf ("\n left size %d, right %d", (int )leftvec.size(), (int)rightvec.size());
+       if (leftvec.size() > 0) 
+           kdnode->left = buildKDTree_recurse (leftvec, dim^1);
+   
+       if (rightvec.size() > 0) 
+           kdnode->right = buildKDTree_recurse (rightvec, dim^1);
+    
+        leftvec.clear();
+        rightvec.clear();
+    }
+    
+    return kdnode;
+}
+
 
 void query (kdnode_t *node, double xmin, double xmax, double ymin, double ymax, std::vector <point_t> &result) {
     

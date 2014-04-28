@@ -8,13 +8,15 @@
 #include <fstream>
 
 #define LO 0.0
-#define HI 100.0
+#define HI 1.0
 #define SIZE 100
 
 using namespace std;
 
 int main () {
-     
+    
+    printf ("\n Number of Input points: %d, Range Low: %lf to High: %lf\n", SIZE, LO, HI);
+
     std::srand(std::time(0));     
     std::ofstream myfile;
     myfile.open ("inputfile.txt");

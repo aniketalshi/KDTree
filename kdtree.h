@@ -24,22 +24,18 @@ typedef struct Point {
 typedef struct KDNode {
     point_t *pt; 
     int dim;
-    
     int count;
-
     struct KDNode *left;
     struct KDNode *right;
-
 } kdnode_t;
 
 class KDTree {
     public:
     kdnode_t *root;
     int min, max;
-    
     void construct ();
+    void construct_unopt ();
     kdnode_t getroot() { return *root; }
-        
 };
 
 typedef struct stack_node {
@@ -48,7 +44,6 @@ typedef struct stack_node {
     bool child;
     int dim;
     kdnode_t *node;
-
 } stnode_t;
 
 extern std::vector <point_t> pvec;
@@ -56,6 +51,7 @@ extern std::vector <point_t> pvec;
 kdnode_t* makeKDNode          (double x, double y, int dim, int count);
 stnode_t *makeSTNode          (int first, int last, kdnode_t *node, bool child, int dim);
 void buildKDTree              (std::vector <int> &indexes, int dim, kdnode_t **root);
+kdnode_t *buildKDTree_recurse (std::vector <point_t> &pvec, int dim);
 void rectangle_query          (point_t point_one, point_t point_two, KDTree kd, std::vector <point_t> &result);
 unsigned long rectangle_count (point_t point_one, point_t point_two, KDTree kd);
 void traversal                (KDTree kd);
