@@ -1,3 +1,17 @@
+/* author : Aniket Alshi
+*  
+* Functions of KDTree :
+* 
+* buildKDTree - builds KDTree optimally in non-recursive way by using queue and 
+*               presorting the points based on indices.
+*
+* buildKDTree_recurse - builds KDTree in simple recursive manner and sorts the points themselves rather
+*                       than sorting them on indices.
+*
+* rectangle_query     - Use to report points if they lie within given orthogonal range query    
+* rectangle_count     - Use to count the points in given range query
+*/
+
 #ifndef KDTREE
 #define KDTREE
 

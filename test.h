@@ -4,25 +4,10 @@
 
 using namespace std;
 
-int myrand(int i) { return std::rand()%i; }
-
-void populate_pvec () {
-
-    std::srand(std::time(0));     
-    for (int i = 1; i < 10; ++i) {
-        point_t *p = (point_t *) malloc (sizeof (point_t));
-        p->x = myrand(i*10); 
-        p->y = myrand(i*20); 
-        pvec.push_back(*p);
-    }
-    std::random_shuffle (pvec.begin(), pvec.end(), myrand);
-}
-
 void test_query (double x1, double y1, double x2, double y2, KDTree kdtree) {
 
-    printf("\n**************Running Test ******************\n"); 
-
     std::vector <point_t> result;
+    
     point_t *p1 = (point_t *) malloc (sizeof (point_t));
     p1->x       = x1;
     p1->y       = y1;
@@ -32,28 +17,35 @@ void test_query (double x1, double y1, double x2, double y2, KDTree kdtree) {
     p2->y       = y2;
     
     printf ("\n Rectangle Query : (%f, %f), (%f, %f) \n ", p1->x, p1->y, p2->x, p2->y);
+   
+    /* Queries the input to report points within rectangle given by p1, p2 
+     * and outputs vector of points that lie in the range */
     rectangle_query(*p1, *p2, kdtree, result);
         
-    //printf("\n Points within query rectangle \n");
-    //for (int i = 0; i < (int )result.size(); ++i)
-    //   printf("\n ( %f, %f)", result[i].x, result[i].y);
+    printf("\n Points within query rectangle \n");
+    for (int i = 0; i < (int )result.size(); ++i)
+       printf("\n ( %f, %f)", result[i].x, result[i].y);
     
-    printf("\n Count : %ld", rectangle_count(*p1, *p2, kdtree));
+    printf("\n Count : %ld", result.size());
     
-    //free(p1);
-    //free(p2);
+    free(p1);
+    free(p2);
 
 }
 
 void test_optimal (double x1, double y1, double x2, double y2) {
     
     KDTree kdtree; 
+    /*Debug function to print input points*/ 
     //print_pvec();
-
+    
+    /*Construct KDTree*/
     kdtree.construct ();
+    
+    /*Debug : Function to print kdtree levelorder */ 
     //traversal(kdtree); 
-
-    printf("\n Optimized KDTree");    
+    
+    printf("\n ***************Optimal KDTree***************");    
 
 #if TIME_CAL
     
@@ -62,6 +54,8 @@ void test_optimal (double x1, double y1, double x2, double y2) {
     gettimeofday(&start1, NULL);
 
 #endif
+    
+    /* Report points within [x1, x2] [y1, y2]*/
     test_query(x1, y1, x2, y2, kdtree);
 
 #if TIME_CAL
@@ -73,18 +67,21 @@ void test_optimal (double x1, double y1, double x2, double y2) {
     printf("\nElapsed time Optmizied version: %lf milliseconds\n", seconds1);
 
 #endif   
-
-
 }
 
 void test_unoptimal (double x1, double y1, double x2, double y2) {
-    
     KDTree kdtree2; 
+    
+    /*Debug function to print input points*/ 
     //print_pvec();
+    
+    /*Construct KDTree*/
     kdtree2.construct_unopt ();
+    
+    /*Debug : Function to print kdtree levelorder */ 
     //traversal(kdtree2);
     
-    printf("\n non-optimal KDTree");    
+    printf("\n ***************non-optimal KDTree***************");    
 
 #if TIME_CAL
     
@@ -94,6 +91,7 @@ void test_unoptimal (double x1, double y1, double x2, double y2) {
 
 #endif
 
+    /* Report points within [x1, x2] [y1, y2]*/
     test_query(x1, y1, x2, y2, kdtree2);
 
 #if TIME_CAL
@@ -105,12 +103,19 @@ void test_unoptimal (double x1, double y1, double x2, double y2) {
     printf("\nElapsed time unoptimized version: %lf milliseconds\n", seconds2);
 
 #endif   
-
 }
 
 void bruteforce (double x1, double y1, double x2, double y2) {
     
-   printf("\n The bruteforce approach \n");
+#if TIME_CAL
+    
+    struct timeval start3, end3;
+    double seconds3;
+    gettimeofday(&start3, NULL);
+
+#endif
+   
+   printf("\n ***************The bruteforce approach*************** \n");
    std::vector <point_t> result;
    double xmin, ymin, xmax, ymax;
    int i;
@@ -127,11 +132,20 @@ void bruteforce (double x1, double y1, double x2, double y2) {
             result.push_back(pvec[i]);
    }
 
-   //printf("\n Points within query rectangle \n");
-   //for (i = 0; i < (int )result.size(); ++i)
-   //    printf("\n ( %f, %f)", result[i].x, result[i].y);
+   printf("\n Points within query rectangle \n");
+   for (i = 0; i < (int )result.size(); ++i)
+       printf("\n ( %f, %f)", result[i].x, result[i].y);
 
     printf("\n Count : %ld", result.size());
+
+#if TIME_CAL
+
+    gettimeofday(&end3, NULL);
+    seconds3 = (end3.tv_sec - start3.tv_sec) * 1000.0;
+    seconds3 += (end3.tv_usec - start3.tv_usec)/1000.0;
+    printf("\nElapsed time brutforce version: %lf milliseconds\n", seconds3);
+
+#endif   
 }
 
 void test_input(int argc, char *argv[]) {

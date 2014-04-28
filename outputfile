@@ -62,4 +62,20 @@ The bruteforce approach
 Count : 801
 Elapsed time brutforce version: 0.353000 milliseconds
 
+---------------------------------------------------------------------------------------------------
+Number of Input points: 50000, Range Low: 0.000000 to High: 1.000000
+Input File : inputfile.txt 
+
+Optimized KDTree
+**************Running Test ******************
+
+Rectangle Query : (0.573169, 0.559823), (0.975031, 0.789011) 
+ 
+Count : 4690
+Elapsed time Optmizied version: 0.434000 milliseconds
+
+The bruteforce approach 
+
+Count : 4690
+Elapsed time brutforce version: 1.178000 milliseconds
 
