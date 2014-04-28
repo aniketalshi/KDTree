@@ -1,22 +1,65 @@
+aniket@aniket-VirtualBox:~/KDTree/final$ sh run.sh 
 
- Number of Input points: 10, Range Low: 0.000000 to High: 1.000000
+Number of Input points: 100, Range Low: 0.000000 to High: 1.000000
 
- Input File : inputfile.txt 
+Input File : inputfile.txt 
 
+Optimized KDTree
 **************Running Test ******************
 
- Rectangle Query : (0.463019, 0.949170), (0.898703, 1.430382) 
- 
- Points within query rectangle 
+Rectangle Query : (0.781394, 0.843099), (0.939476, 0.991383) 
 
- Count : 0
-Elapsed time Optmizied version: 0.032000 milliseconds
+Points within query rectangle 
 
+( 0.896060, 0.864236)
+( 0.878355, 0.919232)
+( 0.928821, 0.911360)
+Count : 3
+Elapsed time Optmizied version: 0.385000 milliseconds
+
+non-optimal KDTree
 **************Running Test ******************
 
- Rectangle Query : (0.463019, 0.898703), (0.949170, 1.430382) 
- 
- Points within query rectangle 
+Rectangle Query : (0.781394, 0.843099), (0.939476, 0.991383) 
 
- Count : 0
-Elapsed time unoptimized version: 0.016000 milliseconds
+Points within query rectangle 
+
+( 0.896060, 0.864236)
+( 0.878355, 0.919232)
+( 0.928821, 0.911360)
+Count : 3
+Elapsed time unoptimized version: 0.340000 milliseconds
+
+The bruteforce approach 
+
+Points within query rectangle 
+
+( 0.878355, 0.919232)
+( 0.896060, 0.864236)
+( 0.928821, 0.911360)
+Count : 3
+Elapsed time brutforce version: 0.983000 milliseconds
+
+-----------------------------------------------------------------------------------------------
+
+
+aniket@aniket-VirtualBox:~/KDTree/final$ sh run.sh 
+
+Number of Input points: 10000, Range Low: 0.000000 to High: 1.000000
+
+Input File : inputfile.txt 
+
+Optimized KDTree
+**************Running Test ******************
+
+Rectangle Query : (0.402878, 0.457002), (0.760320, 0.677544) 
+
+Count : 801
+Elapsed time Optmizied version: 0.280000 milliseconds
+
+The bruteforce approach 
+
+Count : 801
+Elapsed time brutforce version: 0.353000 milliseconds
+
+

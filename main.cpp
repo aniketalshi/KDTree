@@ -16,48 +16,28 @@ int main (int argc, char* argv[]) {
     x2 = x1 + rand()/ (RAND_MAX/0.8);
     y2 = y1 + rand()/ (RAND_MAX/0.8); 
     
-
-#if TIME_CAL
-    
-    struct timeval start1, end1;
-    double seconds1;
-    gettimeofday(&start1, NULL);
-
-#endif
-
     test_optimal(x1, y1, x2, y2);
-
-#if TIME_CAL
-
-    gettimeofday(&end1, NULL);
-    seconds1 = (end1.tv_sec - start1.tv_sec) * 1000.0;
-    seconds1 += (end1.tv_usec - start1.tv_usec)/1000.0;
-
-    printf("\nElapsed time Optmizied version: %lf milliseconds\n", seconds1);
-
-#endif   
-
+    
+    //test_unoptimal(x1, y1, x2, y2);
 
 #if TIME_CAL
     
-    struct timeval start, end;
-    double seconds;
-    gettimeofday(&start, NULL);
+    struct timeval start3, end3;
+    double seconds3;
+    gettimeofday(&start3, NULL);
 
 #endif
 
-    test_unoptimal(x1, y1, x2, y2);
+    bruteforce(x1, y1, x2, y2);
 
 #if TIME_CAL
 
-    gettimeofday(&end, NULL);
-    seconds = (end.tv_sec - start.tv_sec) * 1000.0;
-    seconds += (end.tv_usec - start.tv_usec)/1000.0;
+    gettimeofday(&end3, NULL);
+    seconds3 = (end3.tv_sec - start3.tv_sec) * 1000.0;
+    seconds3 += (end3.tv_usec - start3.tv_usec)/1000.0;
 
-    printf("\nElapsed time unoptimized version: %lf milliseconds\n", seconds);
+    printf("\nElapsed time brutforce version: %lf milliseconds\n", seconds3);
 
 #endif   
-
-
-return 0;
+    return 0;
 }

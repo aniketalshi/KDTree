@@ -9,7 +9,7 @@
 
 #define LO 0.0
 #define HI 1.0
-#define SIZE 100
+#define SIZE 10000
 
 using namespace std;
 
