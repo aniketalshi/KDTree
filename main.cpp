@@ -28,12 +28,12 @@ int main (int argc, char* argv[]) {
     /* Test Function to construct KDTree recursively
      * Report points within [x1, x2] - [y1, y2] rectangle
      */
-    test_unoptimal(x1, y1, x2, y2);
+    //test_unoptimal(x1, y1, x2, y2);
     
     /* Uses naive bruteforce method to iterate over all points
      * and check if they lie within range [x1, x2] - [y1, y2]
      */
-    bruteforce(x1, y1, x2, y2);
+    //bruteforce(x1, y1, x2, y2);
 
     return 0;
 }

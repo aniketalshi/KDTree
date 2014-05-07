@@ -7,9 +7,12 @@
 *
 * buildKDTree_recurse - builds KDTree in simple recursive manner and sorts the points themselves rather
 *                       than sorting them on indices.
-*
+* 
+* isPresent           - Use to check if point exists in KDTree
 * rectangle_query     - Use to report points if they lie within given orthogonal range query    
-* rectangle_count     - Use to count the points in given range query
+* rectangle_count     - Use to count the points in given range rectangle 
+* circle_query        - Use to report points if they lie within given circle 
+* circle_count        - Use to count the points in given circle 
 */
 
 #ifndef KDTREE
@@ -23,6 +26,7 @@
 #include <ctime>
 #include <stack>
 #include <queue>
+#include <math.h>
 #include <sys/time.h>
 
 #define TIME_CAL 1
@@ -66,9 +70,15 @@ kdnode_t* makeKDNode          (double x, double y, int dim, int count);
 stnode_t *makeSTNode          (int first, int last, kdnode_t *node, bool child, int dim);
 void buildKDTree              (std::vector <int> &indexes, int dim, kdnode_t **root);
 kdnode_t *buildKDTree_recurse (std::vector <point_t> &pvec, int dim);
+
+bool isPresent                (point_t p, KDTree kd);
 void rectangle_query          (point_t point_one, point_t point_two, KDTree kd, std::vector <point_t> &result);
 unsigned long rectangle_count (point_t point_one, point_t point_two, KDTree kd);
-void traversal                (KDTree kd);
-void print_pvec               ();
+void circle_query             (point_t point_one, double radius, KDTree kd, std::vector <point_t> &result);
+unsigned long circle_count    (point_t point_one, double radius, KDTree kd);
+
+
+void traversal  (KDTree kd);
+void print_pvec ();
 
 #endif

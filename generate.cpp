@@ -9,22 +9,31 @@
 
 #define LO 0.0
 #define HI 1.0
-#define SIZE 10000
 
 using namespace std;
 
-int main () {
+int main (int argc, char *argv[]) {
     
-    printf ("\n Number of Input points: %d, Range Low: %lf to High: %lf\n", SIZE, LO, HI);
-
     std::srand(std::time(0));     
     std::ofstream myfile;
     myfile.open ("inputfile.txt");
-
-    double x, y; 
-    myfile << SIZE << endl;
     
-    for (int i = 0; i < SIZE; ++i) {
+    
+    if (argc != 2) {
+        printf ("Error: Specify number of points to generate");
+        return 0;
+    }
+    
+    /* input - number of points */
+    unsigned size = atoi(argv[1]);
+    
+    printf ("\n Number of Input points: %d, Range Low: %lf to High: %lf\n", size, LO, HI);
+    
+    double x, y; 
+    unsigned i;
+    myfile << size << endl;
+    
+    for (i = 0; i < size; ++i) {
        
        x = LO + rand() / (RAND_MAX / (HI - LO));
        y = LO + rand() / (RAND_MAX / (HI - LO));

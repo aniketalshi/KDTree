@@ -30,6 +30,12 @@ bool comparept_y (const point_t &p, const point_t &q) {
     return (p.y < q.y);
 }
 
+double distance_2d (point_t one, point_t two) {
+
+    return sqrt(pow((one.x - two.x), 2) + pow((one.y - two.y) ,2));
+}
+
+
 kdnode_t* makeKDNode (double x, double y, int dim, int count) {
         
     kdnode_t *kdnode = (kdnode_t *) malloc (sizeof(kdnode_t));
@@ -247,7 +253,6 @@ void rectangle_query (point_t point_one, point_t point_two, KDTree kd, std::vect
     
    xmin = (point_one.x < point_two.x) ? point_one.x : point_two.x;
    xmax = (point_one.x > point_two.x) ? point_one.x : point_two.x;
-
    ymin = (point_one.y < point_two.y) ? point_one.y : point_two.y;
    ymax = (point_one.y > point_two.y) ? point_one.y : point_two.y;
 
@@ -262,6 +267,66 @@ unsigned long rectangle_count (point_t point_one, point_t point_two, KDTree kd) 
 
    return result.size();
 }
+
+void circle_query (point_t point_one, double radius, KDTree kd, std::vector <point_t> &result) {
+    
+   double xmin, xmax, ymin, ymax;
+   std::vector <point_t> temp;
+    
+   xmin = point_one.x - radius;
+   xmax = point_one.x + radius;
+   ymin = point_one.y - radius;
+   ymax = point_one.y + radius;
+   
+   query (kd.root, xmin, xmax, ymin, ymax, temp);
+   
+   for (int i = 0; i < (int )temp.size(); ++i) {
+        if (distance_2d(temp[i], point_one) <= radius) {
+            result.push_back(temp[i]);
+        }
+   }
+}
+
+unsigned long circle_count (point_t point_one, double radius, KDTree kd) {
+
+   std::vector <point_t> result;
+   circle_query (point_one, radius, kd, result);
+   return result.size();
+}
+
+
+bool find (kdnode_t* curr, point_t p, int dim) {
+    
+    int cmp = compare(*(curr->pt), p, dim);
+    
+    if (cmp == 0) {
+        int cmp2 = compare(*(curr->pt), p, dim^1); 
+        if (cmp2 == 0)
+            return true;
+        
+        if (cmp2 < 0)
+            return (find (curr->left, p, dim^1));
+        else
+            return (find (curr->right, p, dim^1));
+    
+    } else if (cmp < 0) {
+        return (find (curr->left, p, dim^1));
+    } else {
+        return (find (curr->right, p, dim^1));
+    }
+
+    return false;
+}
+
+
+bool isPresent (point_t p, KDTree kd) {
+    
+    if (find(kd.root, p, XDIM))
+        return true;
+        
+    return false;
+}
+
 
 void traversal (KDTree kd) {
    std::queue <kdnode_t> kdqueue;

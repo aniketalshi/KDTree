@@ -22,15 +22,38 @@ void test_query (double x1, double y1, double x2, double y2, KDTree kdtree) {
      * and outputs vector of points that lie in the range */
     rectangle_query(*p1, *p2, kdtree, result);
         
-    printf("\n Points within query rectangle \n");
-    for (int i = 0; i < (int )result.size(); ++i)
-       printf("\n ( %f, %f)", result[i].x, result[i].y);
+    //printf("\n Points within query rectangle \n");
+    //for (int i = 0; i < (int )result.size(); ++i)
+    //   printf("\n ( %f, %f)", result[i].x, result[i].y);
     
     printf("\n Count : %ld", result.size());
     
     free(p1);
     free(p2);
 
+}
+
+void circle_query_test (double x1, double y1, double radius, KDTree kdtree) {
+
+    std::vector <point_t> result;
+    
+    point_t *p1 = (point_t *) malloc (sizeof (point_t));
+    p1->x       = x1;
+    p1->y       = y1;
+    
+    
+    printf ("\n Circle Query : (%lf, %lf), %lf \n ", p1->x, p1->y, radius);
+   
+    /* Queries the input to report points within a circle 
+     * and outputs vector of points that lie in the range */
+    circle_query(*p1, radius, kdtree, result);
+    printf("\n Count : %ld", result.size());
+
+    if (result.size() > 0){
+        if(isPresent(result.at(0), kdtree))
+            printf("\n Point (%lf, %lf) is present", result[0].x, result[0].y);
+   
+    }
 }
 
 void test_optimal (double x1, double y1, double x2, double y2) {
@@ -56,7 +79,8 @@ void test_optimal (double x1, double y1, double x2, double y2) {
 #endif
     
     /* Report points within [x1, x2] [y1, y2]*/
-    test_query(x1, y1, x2, y2, kdtree);
+    //test_query(x1, y1, x2, y2, kdtree);
+    circle_query_test (x1, y1, x2, kdtree);
 
 #if TIME_CAL
 
@@ -115,7 +139,7 @@ void bruteforce (double x1, double y1, double x2, double y2) {
 
 #endif
    
-   printf("\n ***************The bruteforce approach*************** \n");
+   printf("\n ***************The bruteforce approach \n");
    std::vector <point_t> result;
    double xmin, ymin, xmax, ymax;
    int i;
@@ -132,9 +156,9 @@ void bruteforce (double x1, double y1, double x2, double y2) {
             result.push_back(pvec[i]);
    }
 
-   printf("\n Points within query rectangle \n");
-   for (i = 0; i < (int )result.size(); ++i)
-       printf("\n ( %f, %f)", result[i].x, result[i].y);
+   //printf("\n Points within query rectangle \n");
+   //for (i = 0; i < (int )result.size(); ++i)
+   //    printf("\n ( %f, %f)", result[i].x, result[i].y);
 
     printf("\n Count : %ld", result.size());
 
