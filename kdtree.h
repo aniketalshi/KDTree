@@ -51,8 +51,7 @@ class KDTree {
     public:
     kdnode_t *root;
     int min, max;
-    void construct ();
-    void construct_unopt ();
+    void construct (bool recursive);
     kdnode_t getroot() { return *root; }
 };
 
@@ -66,17 +65,17 @@ typedef struct stack_node {
 
 extern std::vector <point_t> pvec;
 
-kdnode_t* makeKDNode          (double x, double y, int dim, int count);
-stnode_t *makeSTNode          (int first, int last, kdnode_t *node, bool child, int dim);
-void buildKDTree              (std::vector <int> &indexes, int dim, kdnode_t **root);
-kdnode_t *buildKDTree_recurse (std::vector <point_t> &pvec, int dim);
-
 bool isPresent                (point_t p, KDTree kd);
 void rectangle_query          (point_t point_one, point_t point_two, KDTree kd, std::vector <point_t> &result);
 unsigned long rectangle_count (point_t point_one, point_t point_two, KDTree kd);
 void circle_query             (point_t point_one, double radius, KDTree kd, std::vector <point_t> &result);
 unsigned long circle_count    (point_t point_one, double radius, KDTree kd);
+point_t* nearest              (point_t p, KDTree kd);
 
+kdnode_t* makeKDNode          (double x, double y, int dim, int count);
+stnode_t *makeSTNode          (int first, int last, kdnode_t *node, bool child, int dim);
+void buildKDTree              (std::vector <int> &indexes, int dim, kdnode_t **root);
+kdnode_t *buildKDTree_recurse (std::vector <point_t> &pvec, int dim);
 
 void traversal  (KDTree kd);
 void print_pvec ();

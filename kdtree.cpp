@@ -3,7 +3,7 @@
 using namespace std;
 std::vector <point_t> pvec;
 
-int compare (const point_t &p, const point_t &q, int dim) {
+double compare (const point_t &p, const point_t &q, int dim) {
     
     switch (dim) {
         case XDIM : return p.x - q.x;
@@ -61,16 +61,20 @@ stnode_t *makeSTNode (int first, int last, kdnode_t *node, bool child, int dim) 
     return stnode;
 };
 
-void KDTree :: construct () {
+void KDTree :: construct (bool recursive) {
     
     if (pvec.size() == 0)
         return;
-    
-    std::vector <int> indexes;
-    for(int i = 0; i < (int )pvec.size(); ++i)
-        indexes.push_back(i);
-     
-    buildKDTree (indexes, XDIM, &root);
+   
+    if (recursive) {
+         root = buildKDTree_recurse (pvec, XDIM);
+    } else {
+        std::vector <int> indexes;
+        for(int i = 0; i < (int )pvec.size(); ++i)
+            indexes.push_back(i);
+         
+        buildKDTree (indexes, XDIM, &root);
+    }
 }
 
 
@@ -153,14 +157,6 @@ void buildKDTree (std::vector <int> &indexes, int dim, kdnode_t **root) {
     }
 }
 
-
-void KDTree :: construct_unopt () {
-    
-    if (pvec.size() == 0)
-        return;
-    
-    root = buildKDTree_recurse (pvec, XDIM);
-}
 
 kdnode_t *buildKDTree_recurse (std::vector <point_t> &pvec, int dim) {
     kdnode_t *kdnode = NULL; 
@@ -296,8 +292,8 @@ unsigned long circle_count (point_t point_one, double radius, KDTree kd) {
 
 
 bool find (kdnode_t* curr, point_t p, int dim) {
-    
-    int cmp = compare(*(curr->pt), p, dim);
+   
+    double cmp = compare(*(curr->pt), p, dim);
     
     if (cmp == 0) {
         int cmp2 = compare(*(curr->pt), p, dim^1); 
@@ -327,6 +323,78 @@ bool isPresent (point_t p, KDTree kd) {
     return false;
 }
 
+
+double find_near_temp (kdnode_t *curr, point_t p, int dim) {
+
+    double cmp = compare(*(curr->pt), p, dim);
+   
+    if(curr->left == NULL || curr->right == NULL) 
+        return cmp;
+
+    if (cmp == 0) {
+        double cmp2 = compare(*(curr->pt), p, dim^1); 
+        if (cmp2 == 0)
+            return cmp;
+        
+        if (cmp2 < 0)
+            return (find_near_temp (curr->left, p, dim^1));
+        else
+            return (find_near_temp (curr->right, p, dim^1));
+    
+    } else if (cmp < 0) {
+        return (find_near_temp (curr->left, p, dim^1));
+    } else {
+        return (find_near_temp (curr->right, p, dim^1));
+    }
+}
+
+
+void find_nearest (kdnode_t* curr, point_t p, int dim, double &min, point_t *pt) {
+
+    if (!curr)
+        return;
+
+    double cmp = compare(*(curr->pt), p, dim);
+    
+    if (cmp < min) {
+        min = cmp;
+        *pt = *(curr->pt);
+    }
+    
+    if (cmp == 0) {
+        double cmp2 = compare(*(curr->pt), p, dim^1); 
+        if (cmp2 == 0)
+            return;
+        
+        if (cmp2 < 0)
+            find_nearest (curr->left, p, dim^1, min, pt);
+        else
+            find_nearest (curr->right, p, dim^1, min, pt);
+    
+    } else if (cmp < 0) {
+        find_nearest (curr->left, p, dim^1, min, pt);
+    } else {
+        find_nearest (curr->right, p, dim^1, min, pt);
+    }
+
+}
+
+point_t* nearest (point_t p, KDTree kd) {
+    
+    point_t *p1 = (point_t *) malloc (sizeof (point_t));
+
+    double min = find_near_temp (kd.root, p, XDIM);
+    
+    if (min == 0) {
+        cout << "point exist"; 
+        p1->x = p.x;
+        p1->y = p.y;
+        return p1; 
+    }
+
+    find_nearest (kd.root, p, XDIM, min, p1);
+    return p1;
+}
 
 void traversal (KDTree kd) {
    std::queue <kdnode_t> kdqueue;

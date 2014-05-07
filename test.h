@@ -4,6 +4,14 @@
 
 using namespace std;
 
+void inline print_points (std::vector<point_t> &result) {
+
+    printf("\n Points within query \n");
+    for (int i = 0; i < (int )result.size(); ++i)
+       printf("\n ( %f, %f)", result[i].x, result[i].y);
+}
+
+
 void test_query (double x1, double y1, double x2, double y2, KDTree kdtree) {
 
     std::vector <point_t> result;
@@ -22,9 +30,7 @@ void test_query (double x1, double y1, double x2, double y2, KDTree kdtree) {
      * and outputs vector of points that lie in the range */
     rectangle_query(*p1, *p2, kdtree, result);
         
-    //printf("\n Points within query rectangle \n");
-    //for (int i = 0; i < (int )result.size(); ++i)
-    //   printf("\n ( %f, %f)", result[i].x, result[i].y);
+    //print_points (result); 
     
     printf("\n Count : %ld", result.size());
     
@@ -47,12 +53,20 @@ void circle_query_test (double x1, double y1, double radius, KDTree kdtree) {
     /* Queries the input to report points within a circle 
      * and outputs vector of points that lie in the range */
     circle_query(*p1, radius, kdtree, result);
-    printf("\n Count : %ld", result.size());
+    
+    //print_points(result)
 
-    if (result.size() > 0){
-        if(isPresent(result.at(0), kdtree))
-            printf("\n Point (%lf, %lf) is present", result[0].x, result[0].y);
-   
+    //printf("\n Count : %ld", result.size());
+
+    if (result.size() > 0) {
+        //if(isPresent(result.at(0), kdtree))
+        //   printf("\n Point (%lf, %lf) is present", result[0].x, result[0].y);
+        point_t *p2 = (point_t *) malloc (sizeof (point_t));
+        p2->x       = result[0].x + 0.1;
+        p2->y       = result[0].y + 0.1;
+        
+        point_t *p = nearest (*p2, kdtree);
+        printf("\n Nearest point:  (%lf, %lf) to point (%lf, %lf)", p->x, p->y, result[0].x, result[0].y);
     }
 }
 
@@ -63,7 +77,7 @@ void test_optimal (double x1, double y1, double x2, double y2) {
     //print_pvec();
     
     /*Construct KDTree*/
-    kdtree.construct ();
+    kdtree.construct (false);
     
     /*Debug : Function to print kdtree levelorder */ 
     //traversal(kdtree); 
@@ -80,7 +94,7 @@ void test_optimal (double x1, double y1, double x2, double y2) {
     
     /* Report points within [x1, x2] [y1, y2]*/
     //test_query(x1, y1, x2, y2, kdtree);
-    circle_query_test (x1, y1, x2, kdtree);
+    circle_query_test(x1, y1, x2, kdtree);
 
 #if TIME_CAL
 
@@ -100,7 +114,7 @@ void test_unoptimal (double x1, double y1, double x2, double y2) {
     //print_pvec();
     
     /*Construct KDTree*/
-    kdtree2.construct_unopt ();
+    kdtree2.construct (true);
     
     /*Debug : Function to print kdtree levelorder */ 
     //traversal(kdtree2);
@@ -156,10 +170,7 @@ void bruteforce (double x1, double y1, double x2, double y2) {
             result.push_back(pvec[i]);
    }
 
-   //printf("\n Points within query rectangle \n");
-   //for (i = 0; i < (int )result.size(); ++i)
-   //    printf("\n ( %f, %f)", result[i].x, result[i].y);
-
+    //print_points(result);
     printf("\n Count : %ld", result.size());
 
 #if TIME_CAL
