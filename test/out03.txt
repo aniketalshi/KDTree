@@ -1,0 +1,21 @@
+
+ Number of Input points: 1000, Range Low: 0.000000 to High: 1.000000
+
+ Input File : test/in01.txt 
+
+ ***************Optimal KDTree***************
+ Rectangle Query : (0.068456, 0.277484), (0.615785, 1.003118) 
+ 
+ Count : 34
+Elapsed time Optmizied version: 0.021000 milliseconds
+
+ **************Circle Query *****************
+ center: (0.068456, 0.277484) radius :0.168456
+ Count : 7
+ *************Nearest point Query***********
+Point closest to (0.209466, 0.280313) is (0.783417, 0.573631)*************
+
+ ***************The bruteforce approach************* 
+
+ Count : 34
+Elapsed time brutforce version: 0.009000 milliseconds

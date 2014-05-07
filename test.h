@@ -4,6 +4,7 @@
 
 using namespace std;
 
+
 void inline print_points (std::vector<point_t> &result) {
 
     printf("\n Points within query \n");
@@ -48,7 +49,8 @@ void circle_query_test (double x1, double y1, double radius, KDTree kdtree) {
     p1->y       = y1;
     
     
-    printf ("\n Circle Query : (%lf, %lf), %lf \n ", p1->x, p1->y, radius);
+    printf ("\n **************Circle Query *****************\n ");
+    printf("center: (%lf, %lf) radius :%lf" , p1->x, p1->y, radius);
    
     /* Queries the input to report points within a circle 
      * and outputs vector of points that lie in the range */
@@ -56,7 +58,7 @@ void circle_query_test (double x1, double y1, double radius, KDTree kdtree) {
     
     //print_points(result)
 
-    //printf("\n Count : %ld", result.size());
+    printf("\n Count : %ld", result.size());
 
     if (result.size() > 0) {
         //if(isPresent(result.at(0), kdtree))
@@ -66,7 +68,8 @@ void circle_query_test (double x1, double y1, double radius, KDTree kdtree) {
         p2->y       = result[0].y + 0.1;
         
         point_t *p = nearest (*p2, kdtree);
-        printf("\n Nearest point:  (%lf, %lf) to point (%lf, %lf)", p->x, p->y, result[0].x, result[0].y);
+        printf("\n *************Nearest point Query***********\n");
+        printf("Point closest to (%lf, %lf) is (%lf, %lf)*************\n", result[0].x, result[0].y, p->x, p->y);
     }
 }
 
@@ -93,8 +96,7 @@ void test_optimal (double x1, double y1, double x2, double y2) {
 #endif
     
     /* Report points within [x1, x2] [y1, y2]*/
-    //test_query(x1, y1, x2, y2, kdtree);
-    circle_query_test(x1, y1, x2, kdtree);
+    test_query(x1, y1, x2, y2, kdtree);
 
 #if TIME_CAL
 
@@ -105,6 +107,9 @@ void test_optimal (double x1, double y1, double x2, double y2) {
     printf("\nElapsed time Optmizied version: %lf milliseconds\n", seconds1);
 
 #endif   
+
+    circle_query_test(x1, y1, x1+0.1, kdtree);
+
 }
 
 void test_unoptimal (double x1, double y1, double x2, double y2) {
@@ -153,7 +158,7 @@ void bruteforce (double x1, double y1, double x2, double y2) {
 
 #endif
    
-   printf("\n ***************The bruteforce approach \n");
+   printf("\n ***************The bruteforce approach************* \n");
    std::vector <point_t> result;
    double xmin, ymin, xmax, ymax;
    int i;
@@ -218,3 +223,4 @@ void test_input(int argc, char *argv[]) {
     }
 
 }
+

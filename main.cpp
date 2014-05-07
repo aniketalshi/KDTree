@@ -5,6 +5,7 @@ using namespace std;
 
 int main (int argc, char* argv[]) {
     
+
     double x1, y1, x2, y2;
     
     /*Read the Input from the file given by user*/
@@ -17,8 +18,8 @@ int main (int argc, char* argv[]) {
     x1 = 0.0 + rand()/ (RAND_MAX/1.0); 
     y1 = 0.0 + rand()/ (RAND_MAX/1.0);
     
-    x2 = x1 + rand()/ (RAND_MAX/0.1);
-    y2 = y1 + rand()/ (RAND_MAX/0.1); 
+    x2 = x1 + rand()/ (RAND_MAX/0.8);
+    y2 = y1 + rand()/ (RAND_MAX/0.8); 
    
     /* Test Function to construct KDTree optimally 
      * Report points within [x1, x2] - [y1, y2] rectangle
@@ -28,12 +29,12 @@ int main (int argc, char* argv[]) {
     /* Test Function to construct KDTree recursively
      * Report points within [x1, x2] - [y1, y2] rectangle
      */
-    //test_unoptimal(x1, y1, x2, y2);
+    test_unoptimal(x1, y1, x2, y2);
     
     /* Uses naive bruteforce method to iterate over all points
      * and check if they lie within range [x1, x2] - [y1, y2]
      */
-    //bruteforce(x1, y1, x2, y2);
+    bruteforce(x1, y1, x2, y2);
 
     return 0;
 }

@@ -16,7 +16,7 @@ int main (int argc, char *argv[]) {
     
     std::srand(std::time(0));     
     std::ofstream myfile;
-    myfile.open ("inputfile.txt");
+    myfile.open ("test/in06.txt");
     
     
     if (argc != 2) {
