@@ -5,12 +5,12 @@ This repo provides C++ library for using KDTree datastructure for orthogonal ran
 
 Functions provided by the library:
 <pre>
-1. **isPresent** : It is used to verify if a given point exists within an input set or not
-2. **rectangle_query** : Used to report all the points present within the query rectangle specified by two points.
-3. **rectangle_count** : used to give the count of all the points present within query rectangle.
-4. **circle_query** : used to report all points present within given circle represented by point and radius.
-5. **circle_count** : used to report the count of all the points present within circle.
-6. **nearest** : point nearest to given point.
+1. isPresent() : It is used to verify if a given point exists within an input set or not
+2. rectangle_query() : Used to report all the points present within the query rectangle specified by two points.
+3. rectangle_count() : used to give the count of all the points present within query rectangle.
+4. circle_query() : used to report all points present within given circle represented by point and radius.
+5. circle_count() : used to report the count of all the points present within circle.
+6. nearest() : point nearest to given point.
 </pre>
 
 ### Instructions for running the project
