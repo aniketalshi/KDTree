@@ -16,11 +16,10 @@ Functions provided by the library:
 ### Instructions for running the project
 
 To Run the complete project just run command : sh run.sh
-1. Test folder : Input testcases and corresponding output files
 
-2. ./generate <inputsize> : this will generate random input pts in file inputfile.txt
-
-3. ./main <inputfile>     : will take input from the inputfile
+1. ***Test folder*** : Input testcases and corresponding output files
+2. ***./generate*** <inputsize> : this will generate random input pts in file inputfile.txt
+3. ***./main*** <inputfile>     : will take input from the inputfile
 
 4.Files:
 * generate.cpp - generates random input and stores in inputfile.txt
